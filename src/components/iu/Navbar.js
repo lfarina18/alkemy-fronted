@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/authContext';
 import { types } from '../../types/types';
 
@@ -16,7 +16,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className='container navbar navbar-expand-sm navbar-dark bg-dark'>
+    <nav className='p-2 navbar navbar-expand-sm navbar-dark bg-dark'>
       <h2 className='navbar-brand'>
         IU
       </h2>
@@ -27,7 +27,7 @@ export const Navbar = () => {
             className={({ isActive }) =>
               'nav-item nav-link' + (isActive ? ' active' : '')
             }
-            to='/budgetpersonal'>
+            to='/home'>
             Presupuesto
           </NavLink>
 

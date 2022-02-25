@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { BudgetPersonal } from '../components/BudgetPersonal';
+import { Home } from '../components/Home';
 import { Navbar } from '../components/iu/Navbar';
 
 export const DashBoardRoutes = () => {
@@ -8,9 +8,9 @@ export const DashBoardRoutes = () => {
       <Navbar />
       <div className='container'>
         <Routes>
-          <Route path='budgetpersonal' element={<BudgetPersonal />} />
+          <Route path='/home' element={<Home />} />
         
-          <Route path='/' element={<BudgetPersonal />} />
+          <Route path='/' element={<Home />} />
         </Routes>
       </div>
     </>

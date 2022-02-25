@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Swal from 'sweetalert2';
+import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/authContext';
 import { types } from '../../types/types';
@@ -27,6 +28,17 @@ export const LoginScreen = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (validator.isEmpty(lEmail)) {
+      Swal.fire('Error', 'El correo no puede estar vacio', 'error');
+      return false;
+    } else if (!validator.isEmail(lEmail)) {
+      Swal.fire('Error', 'No es un correo válido', 'error');
+      return false;
+    } else if (validator.isEmpty(lPassword)) {
+      Swal.fire('Error', 'La contraseña no puede estar vacia', 'error');
+      return false;
+    }
 
     try {
       const resp = await fetchWithoutToken(
@@ -65,13 +77,18 @@ export const LoginScreen = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-
-    if (rPassword1 !== rPassword2) {
-      return Swal.fire(
-        'Error',
-        'Las contraseñas deben de ser iguales',
-        'error'
-      );
+    if (validator.isEmpty(rName)) {
+      Swal.fire('Error', 'El nombre no puede estar vacio', 'error');
+      return false;
+    } else if (validator.isEmpty(rEmail)) {
+      Swal.fire('Error', 'El correo no puede estar vacio', 'error');
+      return false;
+    } else if (!validator.isEmail(rEmail)) {
+      Swal.fire('Error', 'No es un correo válido', 'error');
+      return false;
+    } else if (!validator.equals(rPassword1, rPassword2) || validator.isEmpty(rPassword1)) {
+      Swal.fire('Error', 'La contraseña es incorrecta', 'error');
+      return false;
     }
 
     try {
@@ -95,14 +112,18 @@ export const LoginScreen = () => {
         };
         dispatch(action);
 
-        Swal.fire('Registrado!', 'Usted se ha registrado correctamente', 'success');
-        const lastPath = localStorage.getItem('lastPath') || '/budgetpersonal';
+        Swal.fire(
+          'Registrado!',
+          'Usted se ha registrado correctamente',
+          'success'
+        );
+        const lastPath = localStorage.getItem('lastPath') || '/home';
 
         navigate(lastPath, {
           replace: true,
         });
       } else {
-        const err =  body.errors[0].msg
+        const err = body.errors[0].msg;
         Swal.fire('Error', err, 'error');
       }
     } catch (error) {
@@ -111,27 +132,24 @@ export const LoginScreen = () => {
   };
 
   return (
-    <section className='vh-full' style={{ backgroundImage: "url('https://cdn.pixabay.com/photo/2016/08/03/09/04/universe-1566161_960_720.jpg')"}}>
+    <section
+      className='vh-full'
+      style={{
+        backgroundImage:
+          "url('https://cdn.pixabay.com/photo/2016/08/03/09/04/universe-1566161_960_720.jpg')",
+      }}>
       <div className='container py-5 h-100'>
         <div className='row d-flex justify-content-center align-items-center h-100'>
           <div className='col col-md-8'>
-            <div className='card bg-black p-2 text-white bg-opacity-50' style={{ borderRadius: '1rem' }}>
+            <div
+              className='card bg-black p-2 text-white bg-opacity-75'
+              style={{ borderRadius: '1rem' }}>
               <div className='d-flex justify-content-center'>
-                {/* <div className='col-md-6 col-lg-5 d-none d-md-block'>
-                  <img
-                    src='https://cdn.pixabay.com/photo/2014/11/14/08/23/japan-530348_960_720.jpg'
-                    alt='login form'
-                    className='img-fluid'
-                    style={{ borderRadius: '1rem 0 0 1rem' }}
-                  />
-                </div> */}
                 <div className=' col-md-12 col-lg-10'>
                   <div className='card-body p-4 p-lg-5 '>
                     <form onSubmit={handleLogin}>
                       <div className='d-flex align-items-center mb-3 pb-1'>
-                        <span
-                          className='h2 fw-bold mb-0 text-center'
-                          >
+                        <span className='h2 fw-bold mb-0 text-center'>
                           Administrador de presupuesto personal
                         </span>
                       </div>
@@ -179,7 +197,7 @@ export const LoginScreen = () => {
                         </button>
                       </div>
                     </form>
-
+                      {/* Register Form */}
                     <p className='mb-3 pb-lg-2 text-center h5'>
                       ¿No tienes una cuenta?{' '}
                     </p>
@@ -201,7 +219,7 @@ export const LoginScreen = () => {
                           onChange={handleRegisterInputChange}
                         />
                         <label className='form-label' htmlFor='form2Example17'>
-                          Correo
+                          Nombre
                         </label>
                       </div>
                       <div className='form-outline mb-3'>
