@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../auth/authContext';
 import { ListItems } from './ListItems';
-import axios from 'axios';
+import clientAxios from '../config/axios';
 
-export const List = () => {
+export const List = ({listUpdate}) => {
+
+  console.log(listUpdate);
+
   const { user } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
@@ -12,19 +15,16 @@ export const List = () => {
   useEffect(() => {
     const listitems = async () => {
       setLoading(true);
-      const response = await axios.get(
-        `http://localhost:8080/api/budgetform/${user.id}`
-      );
+      const response = await clientAxios.get(`/budgetform/${user.id}`);
       setitems(response.data);
       setLoading(false);
     };
     listitems();
-  }, [user.id]);
-
+  }, [user.id, listUpdate]);
 
   return (
     <section className='container'>
-      <h1 className='text-danger'>¡Promociones de la semana!</h1>
+      <h3 className='text-primary text-center mb-3'>Egresos</h3>
       <div className='table-responsive'>
         <table className='table'>
           <thead>
@@ -33,7 +33,7 @@ export const List = () => {
               <th scope='col'>Concepto</th>
               <th scope='col'>Monto $</th>
               <th scope='col'>Tipo</th>
-              <th scope='col'>Fecha</th>
+              <th scope='col'>(Año-Mes-Día)</th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +50,7 @@ export const List = () => {
                   amount={item.amount}
                   type={item.type}
                   date={item.updatedAt}
+                  idItem={item.id}
                 />
               ))
             )}

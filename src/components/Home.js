@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import { AuthContext } from '../auth/authContext';
 import './styles/home.css';
@@ -8,6 +8,8 @@ import { List } from './List';
 
 export const Home = () => {
   const { user } = useContext(AuthContext);
+
+  const [listUpdate, setlistUpdate] = useState()
 
   const initialState = {
     concept: '',
@@ -23,6 +25,7 @@ export const Home = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
 
+    
     if (concept === '' || amount === '') {
       return Swal.fire('Error', 'Todos los campos deben estar llenos', 'error');
     } else {
@@ -36,24 +39,26 @@ export const Home = () => {
             userId,
           },
           'POST'
-        );
+          );
         const body = await resp.json();
-
+        
         if (resp.ok) {
           Swal.fire(
             'Agregado!',
             'Usted ha agregado el concepto correctamente',
             'success'
-          );
-          reset();
-        } else {
-          Swal.fire('Error', body.errors[0].msg, 'error');
+            );
+            reset();
+          } else {
+            Swal.fire('Error', body.errors[0].msg, 'error');
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
-    }
-  };
+      
+      setlistUpdate(false);
+    };
 
   return (
     <div className='container mt-4'>
@@ -107,7 +112,7 @@ export const Home = () => {
                   </select>
                 </div>
 
-                <button type='submit' className='btn btn-primary mt-3'>
+                <button type='submit' className='btn btn-primary mt-3' onClick={() =>{setlistUpdate(true)}}>
                   Agregar
                 </button>
               </form>
@@ -137,7 +142,7 @@ export const Home = () => {
           </div>
         </div>
         <section>
-          <List />
+          <List listUpdate={listUpdate} />
         </section>
       </main>
     </div>
