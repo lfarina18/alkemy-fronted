@@ -9,7 +9,7 @@ import { List } from './List';
 export const Home = () => {
   const { user } = useContext(AuthContext);
 
-  const [listUpdate, setlistUpdate] = useState()
+  const [listUpdate, setlistUpdate] = useState(true);
 
   const initialState = {
     concept: '',
@@ -25,8 +25,7 @@ export const Home = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
 
-    
-    if (concept === '' || amount === '') {
+    if (concept === '' || amount === '' || type === '') {
       return Swal.fire('Error', 'Todos los campos deben estar llenos', 'error');
     } else {
       try {
@@ -39,26 +38,26 @@ export const Home = () => {
             userId,
           },
           'POST'
-          );
+        );
         const body = await resp.json();
-        
+
         if (resp.ok) {
           Swal.fire(
             'Agregado!',
             'Usted ha agregado el concepto correctamente',
             'success'
-            );
-            reset();
-          } else {
-            Swal.fire('Error', body.errors[0].msg, 'error');
-          }
-        } catch (error) {
-          console.error(error);
+          );
+          reset();
+        } else {
+          Swal.fire('Error', body.errors[0].msg, 'error');
         }
+      } catch (error) {
+        console.error(error);
       }
-      
-      setlistUpdate(false);
-    };
+    }
+
+    setlistUpdate(false);
+  };
 
   return (
     <div className='container mt-4'>
@@ -69,7 +68,7 @@ export const Home = () => {
         <div className='row'>
           <div className='col'>
             <div className='contenido primario'>
-              <h2 className='text-center'>Añade tus gastos aqui</h2>
+              <h2 className='text-center'>Agregue ingresos o egresos aqui</h2>
 
               <form id='agregar-gasto' onSubmit={handleAdd}>
                 <div className='form-group'>
@@ -85,34 +84,61 @@ export const Home = () => {
                   />
                 </div>
                 <div className='form-group mt-3'>
-                  <label htmlFor='cantidad'>Cantidad:</label>
+                  <label htmlFor='cantidad'>Monto:</label>
                   <input
                     type='number'
                     name='amount'
                     value={amount}
                     className='form-control'
                     id='cantidad'
-                    placeholder='Cantidad en $'
+                    placeholder='Monto en $'
                     onChange={handleInputChange}
                   />
                 </div>
 
                 <div className='form-group mt-3'>
-                  <select
-                    defaultValue={'DEFAULT'}
-                    className='form-select'
-                    aria-label='select'
-                    name='type'
-                    onChange={handleInputChange}>
-                    <option value='DEFAULT' disabled>
-                      Selecione el tipo de gasto ...
-                    </option>
-                    <option value='Ingreso'>Ingreso</option>
-                    <option value='Egreso'>Egreso</option>
-                  </select>
+                  <p>Seleccione el tipo:</p>
+
+                  <div className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      name='type'
+                      id='flexRadioDefault1'
+                      onChange={handleInputChange}
+                      value='Egreso'
+                      checked={type === 'Egreso' ? true : false}
+                    />
+                    <label
+                      className='form-check-label'
+                      htmlFor='flexRadioDefault1'>
+                      Egreso
+                    </label>
+                  </div>
+                  <div className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      name='type'
+                      id='flexRadioDefault2'
+                      onChange={handleInputChange}
+                      value='Ingreso'
+                      checked={type === 'Ingreso' ? true : false}
+                    />
+                    <label
+                      className='form-check-label'
+                      htmlFor='flexRadioDefault2'>
+                      Ingreso
+                    </label>
+                  </div>
                 </div>
 
-                <button type='submit' className='btn btn-primary mt-3' onClick={() =>{setlistUpdate(true)}}>
+                <button
+                  type='submit'
+                  className='btn btn-primary mt-3'
+                  onClick={() => {
+                    setlistUpdate(true);
+                  }}>
                   Agregar
                 </button>
               </form>
@@ -121,7 +147,7 @@ export const Home = () => {
 
           <div className='col'>
             <div className='contenido secundario'>
-              <h2 className='text-center'>Listado</h2>
+              <h2 className='text-center'>Balance</h2>
 
               <div id='gastos'>
                 <ul className='list-group'></ul>
@@ -129,14 +155,14 @@ export const Home = () => {
               <div id='presupuesto' className='presupuesto'>
                 <div className='alert alert-primary'>
                   <p>
-                    Presupuesto: $ <span id='total'></span>
+                    Balance: $ <span id='total'></span>
                   </p>
                 </div>
-                <div className='restante alert alert-success'>
+                {/* <div className='restante alert alert-success'>
                   <p>
                     Restante: $ <span id='restante'></span>
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
