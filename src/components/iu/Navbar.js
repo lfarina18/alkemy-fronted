@@ -7,6 +7,8 @@ export const Navbar = () => {
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const firstLetter = user.name.substr(0,1)
+
   const handleLogout = () => {
     dispatch({ type: types.logout });
 
@@ -16,10 +18,8 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className='p-2 navbar navbar-expand-sm navbar-dark bg-dark'>
-      <h2 className='navbar-brand'>
-        IU
-      </h2>
+    <nav className='p-2 navbar navbar-expand navbar-dark bg-dark'>
+      
 
       <div className='navbar-collapse'>
         <div className='navbar-nav'>
@@ -28,7 +28,8 @@ export const Navbar = () => {
               'nav-item nav-link' + (isActive ? ' active' : '')
             }
             to='/home'>
-            Presupuesto
+              <span className= ' p-1 fs-4 '> {firstLetter}</span>
+           
           </NavLink>
 
           
@@ -40,7 +41,7 @@ export const Navbar = () => {
           <span className='nav-item nav-link text-info'>{user.name}</span>
 
           <button className='nav-item nav-link btn' onClick={handleLogout}>
-            Logout
+            Cerrar sesión
           </button>
         </ul>
       </div>

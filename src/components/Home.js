@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import { AuthContext } from '../auth/authContext';
 import './styles/home.css';
 import Swal from 'sweetalert2';
 import { fetchWithoutToken } from '../helpers/fetch';
 import { List } from './List';
+import { Total } from './Total';
 
 export const Home = () => {
   const { user } = useContext(AuthContext);
@@ -26,7 +27,7 @@ export const Home = () => {
     e.preventDefault();
 
     if (concept === '' || amount === '' || type === '') {
-      return Swal.fire('Error', 'Todos los campos deben estar llenos', 'error');
+      return Swal.fire('Error', 'Todos los campos son obligatorios', 'error');
     } else {
       try {
         const resp = await fetchWithoutToken(
@@ -59,15 +60,17 @@ export const Home = () => {
     setlistUpdate(false);
   };
 
+  
+
   return (
-    <div className='container mt-4'>
+    <div className='container my-4'>
       <header>
-        <h1 className='text-center'>Gasto Semanal</h1>
+        <h1 className='text-center'>Presupuesto Mensual</h1>
       </header>
-      <main className='contenido-principal'>
+      <main className='main-content'>
         <div className='row'>
           <div className='col'>
-            <div className='contenido primario'>
+            <div className='p-3'>
               <h2 className='text-center'>Agregue ingresos o egresos aqui</h2>
 
               <form id='agregar-gasto' onSubmit={handleAdd}>
@@ -78,7 +81,6 @@ export const Home = () => {
                     value={concept}
                     name='concept'
                     className='form-control'
-                    id='concepto'
                     placeholder='Concepto'
                     onChange={handleInputChange}
                   />
@@ -90,7 +92,6 @@ export const Home = () => {
                     name='amount'
                     value={amount}
                     className='form-control'
-                    id='cantidad'
                     placeholder='Monto en $'
                     onChange={handleInputChange}
                   />
@@ -145,30 +146,13 @@ export const Home = () => {
             </div>
           </div>
 
-          <div className='col'>
-            <div className='contenido secundario'>
-              <h2 className='text-center'>Balance</h2>
+          <Total listUpdate={listUpdate}/>
 
-              <div id='gastos'>
-                <ul className='list-group'></ul>
-              </div>
-              <div id='presupuesto' className='presupuesto'>
-                <div className='alert alert-primary'>
-                  <p>
-                    Balance: $ <span id='total'></span>
-                  </p>
-                </div>
-                {/* <div className='restante alert alert-success'>
-                  <p>
-                    Restante: $ <span id='restante'></span>
-                  </p>
-                </div> */}
-              </div>
-            </div>
-          </div>
         </div>
         <section>
+
           <List listUpdate={listUpdate} />
+
         </section>
       </main>
     </div>

@@ -1,7 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const ListItems = ({ concept, amount, type, id, date, idItem }) => {
+export const ListItems = ({
+  concept,
+  amount,
+  type,
+  id,
+  date,
+  idItem,
+  handleDelete,
+}) => {
   const dateShort = date.substr(0, 10);
 
   return (
@@ -12,16 +20,17 @@ export const ListItems = ({ concept, amount, type, id, date, idItem }) => {
         <td>{amount}</td>
         <td>{type}</td>
         <td>{dateShort}</td>
-        
+
         <td className='d-flex justify-content-evenly'>
-          <Link to='/edititems' className='btn btn-outline-info'>
+          <Link to={`/edititems/${idItem}`} className='btn btn-outline-info'>
             <i className='fa fa-pencil-alt'></i>
           </Link>
-          <button className='btn btn-outline-danger'>
+          <button
+            className='btn btn-outline-danger'
+            onClick={() => handleDelete(idItem)}>
             <i className='fa fa-trash'></i>
           </button>
         </td>
-       
       </tr>
     </>
   );

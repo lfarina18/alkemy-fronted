@@ -12,7 +12,7 @@ export const DashBoardRoutes = () => {
           <Route path='/home' element={<Home />} />
           <Route path='/' element={<Home />} />
         
-          <Route path='/edititems' element={<EditItems />} />
+          <Route path='/edititems/:idItem' element={<EditItems  />} />
         </Routes>
       </div>
     </>

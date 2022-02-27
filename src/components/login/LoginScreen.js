@@ -61,7 +61,7 @@ export const LoginScreen = () => {
         };
         dispatch(action);
 
-        const lastPath = localStorage.getItem('lastPath') || '/budgetpersonal';
+        const lastPath = localStorage.getItem('lastPath') || '/home';
 
         navigate(lastPath, {
           replace: true,

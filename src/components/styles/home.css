@@ -1,37 +1,33 @@
 body {
-    background: #000428;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #004e92, #000428);  
-background: linear-gradient(to right, #004e92, #000428); 
+    background: #2c6975;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2c6975, #68b2a0);  
+background: linear-gradient(to right, #2c6975, #68b2a0); 
 }
 header {
     margin: 30px 0;
 }
-.contenido {
-    padding:20px;
-}
-.contenido-principal {
+
+.main-content {
     background-color: white;
     padding: 30px;
     border-radius: 20px;
 }
-.presupuesto p{
+.budget p{
     margin-bottom: 0;
     font-weight: bold;
 }
-.presupuesto p span {
+.budget p span {
     font-weight: normal;
 }
-#gastos {
-    margin-bottom: 30px;
-}
+
 h1{
     font-family: 'Raleway', sans-serif;
-    font-weight: 100;
+    font-weight: 200;
     color: white;
 }
 h2 {
     font-family: 'Raleway', sans-serif;
-    font-weight: 100;
+    font-weight: 200;
     color:#004e92;
     font-size: 22px;
     margin-bottom:30px;
