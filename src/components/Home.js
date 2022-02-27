@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from '../hooks/useForm';
 import { AuthContext } from '../auth/authContext';
 import './styles/home.css';
